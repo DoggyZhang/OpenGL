@@ -1,4 +1,4 @@
-package com.opengl.fragments.utils;
+package com.opengl.utils;
 
 import android.content.Context;
 import android.content.res.Resources;

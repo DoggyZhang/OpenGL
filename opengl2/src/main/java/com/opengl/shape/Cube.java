@@ -1,4 +1,4 @@
-package com.opengl.fragments;
+package com.opengl.shape;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
