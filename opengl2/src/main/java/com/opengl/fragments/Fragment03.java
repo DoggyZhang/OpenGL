@@ -100,8 +100,8 @@ public class Fragment03 extends BaseFragment {
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
             GLES20.glClearColor(0f, 0f, 0f, 0f);
 
-            String mVertexShaderSource = TextResourceReader.readTextResource(mContext, R.raw.simple_vertex_shader3);
-            String mFragmentShaderSource = TextResourceReader.readTextResource(mContext, R.raw.simple_fragment_shader3);
+            String mVertexShaderSource = TextResourceReader.readTextFileFromResource(mContext, R.raw.simple_vertex_shader3);
+            String mFragmentShaderSource = TextResourceReader.readTextFileFromResource(mContext, R.raw.simple_fragment_shader3);
 
             int vertexShader = ShaderHelper.compileVertexShader(mVertexShaderSource);
             int fragmentShader = ShaderHelper.compileFragmentShader(mFragmentShaderSource);

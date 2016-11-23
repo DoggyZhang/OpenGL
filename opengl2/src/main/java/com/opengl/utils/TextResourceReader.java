@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
  */
 
 public class TextResourceReader {
-    public static String readTextResource(Context context, int resourceId) {
+    public static String readTextFileFromResource(Context context, int resourceId) {
         StringBuilder body = new StringBuilder();
 
         try {

@@ -104,8 +104,8 @@ public class Fragment02 extends BaseFragment {
             // alpha, which we don't use in this lesson.
             GLES20.glClearColor(0f, 0f, 0f, 0f);
 
-            String mVertexShaderSource = TextResourceReader.readTextResource(mContext, R.raw.simple_vertex_shader);
-            String mFragmentShaderSource = TextResourceReader.readTextResource(mContext, R.raw.simple_fragment_shader);
+            String mVertexShaderSource = TextResourceReader.readTextFileFromResource(mContext, R.raw.simple_vertex_shader);
+            String mFragmentShaderSource = TextResourceReader.readTextFileFromResource(mContext, R.raw.simple_fragment_shader);
 
             int vertexShader = ShaderHelper.compileVertexShader(mVertexShaderSource);
             int fragmentShader = ShaderHelper.compileFragmentShader(mFragmentShaderSource);

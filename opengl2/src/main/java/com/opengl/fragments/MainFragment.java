@@ -29,6 +29,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
         root.findViewById(R.id.btn_3).setOnClickListener(this);
         root.findViewById(R.id.btn_4).setOnClickListener(this);
         root.findViewById(R.id.btn_5).setOnClickListener(this);
+        root.findViewById(R.id.btn_6).setOnClickListener(this);
     }
 
     @Override
@@ -54,6 +55,9 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.btn_5:
                 fragmentTransaction.replace(R.id.MainContainer, new Fragment05());
+                break;
+            case R.id.btn_6:
+                fragmentTransaction.replace(R.id.MainContainer, new Fragment06());
                 break;
         }
         fragmentTransaction.addToBackStack(null);

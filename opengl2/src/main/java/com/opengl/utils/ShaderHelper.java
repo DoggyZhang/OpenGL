@@ -1,15 +1,33 @@
 /***
  * Excerpted from "OpenGL ES for Android",
  * published by The Pragmatic Bookshelf.
- * Copyrights apply to this code. It may not be used to create training material,
+ * Copyrights apply to this code. It may not be used to create training material, 
  * courses, books, articles, and the like. Contact us if you are in doubt.
- * We make no guarantees that this code is fit for any purpose.
+ * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/kbogla for more book information.
- ***/
+***/
 package com.opengl.utils;
 
-import android.opengl.GLES20;
 import android.util.Log;
+
+import static android.opengl.GLES20.GL_COMPILE_STATUS;
+import static android.opengl.GLES20.GL_FRAGMENT_SHADER;
+import static android.opengl.GLES20.GL_LINK_STATUS;
+import static android.opengl.GLES20.GL_VALIDATE_STATUS;
+import static android.opengl.GLES20.GL_VERTEX_SHADER;
+import static android.opengl.GLES20.glAttachShader;
+import static android.opengl.GLES20.glCompileShader;
+import static android.opengl.GLES20.glCreateProgram;
+import static android.opengl.GLES20.glCreateShader;
+import static android.opengl.GLES20.glDeleteProgram;
+import static android.opengl.GLES20.glDeleteShader;
+import static android.opengl.GLES20.glGetProgramInfoLog;
+import static android.opengl.GLES20.glGetProgramiv;
+import static android.opengl.GLES20.glGetShaderInfoLog;
+import static android.opengl.GLES20.glGetShaderiv;
+import static android.opengl.GLES20.glLinkProgram;
+import static android.opengl.GLES20.glShaderSource;
+import static android.opengl.GLES20.glValidateProgram;
 
 public class ShaderHelper {
     private static final String TAG = "ShaderHelper";
@@ -18,23 +36,22 @@ public class ShaderHelper {
      * Loads and compiles a vertex shader, returning the OpenGL object ID.
      */
     public static int compileVertexShader(String shaderCode) {
-        return compileShader(GLES20.GL_VERTEX_SHADER, shaderCode);
+        return compileShader(GL_VERTEX_SHADER, shaderCode);
     }
 
     /**
      * Loads and compiles a fragment shader, returning the OpenGL object ID.
      */
     public static int compileFragmentShader(String shaderCode) {
-        return compileShader(GLES20.GL_FRAGMENT_SHADER, shaderCode);
+        return compileShader(GL_FRAGMENT_SHADER, shaderCode);
     }
 
     /**
      * Compiles a shader, returning the OpenGL object ID.
      */
     private static int compileShader(int type, String shaderCode) {
-
         // Create a new shader object.
-        final int shaderObjectId = GLES20.glCreateShader(type);
+        final int shaderObjectId = glCreateShader(type);
 
         if (shaderObjectId == 0) {
             if (LoggerConfig.ON) {
@@ -45,25 +62,26 @@ public class ShaderHelper {
         }
 
         // Pass in the shader source.
-        GLES20.glShaderSource(shaderObjectId, shaderCode);
+        glShaderSource(shaderObjectId, shaderCode);
 
         // Compile the shader.
-        GLES20.glCompileShader(shaderObjectId);
+        glCompileShader(shaderObjectId);
 
         // Get the compilation status.
         final int[] compileStatus = new int[1];
-        GLES20.glGetShaderiv(shaderObjectId, GLES20.GL_COMPILE_STATUS, compileStatus, 0);
+        glGetShaderiv(shaderObjectId, GL_COMPILE_STATUS,
+            compileStatus, 0);
 
         if (LoggerConfig.ON) {
             // Print the shader info log to the Android log output.
-            Log.v(TAG, "Results of compiling source:" + "\n" + shaderCode + "\n:"
-                    + GLES20.glGetShaderInfoLog(shaderObjectId));
+            Log.v(TAG, "Results of compiling source:" + "\n" + shaderCode
+                + "\n:" + glGetShaderInfoLog(shaderObjectId));
         }
 
         // Verify the compile status.
         if (compileStatus[0] == 0) {
             // If it failed, delete the shader object.
-            GLES20.glDeleteShader(shaderObjectId);
+            glDeleteShader(shaderObjectId);
 
             if (LoggerConfig.ON) {
                 Log.w(TAG, "Compilation of shader failed.");
@@ -83,7 +101,7 @@ public class ShaderHelper {
     public static int linkProgram(int vertexShaderId, int fragmentShaderId) {
 
         // Create a new program object.
-        final int programObjectId = GLES20.glCreateProgram();
+        final int programObjectId = glCreateProgram();
 
         if (programObjectId == 0) {
             if (LoggerConfig.ON) {
@@ -94,30 +112,36 @@ public class ShaderHelper {
         }
 
         // Attach the vertex shader to the program.
-        GLES20.glAttachShader(programObjectId, vertexShaderId);
+        glAttachShader(programObjectId, vertexShaderId);
+
         // Attach the fragment shader to the program.
-        GLES20.glAttachShader(programObjectId, fragmentShaderId);
+        glAttachShader(programObjectId, fragmentShaderId);
 
         // Link the two shaders together into a program.
-        GLES20.glLinkProgram(programObjectId);
+        glLinkProgram(programObjectId);
 
         // Get the link status.
         final int[] linkStatus = new int[1];
-        GLES20.glGetProgramiv(programObjectId, GLES20.GL_LINK_STATUS, linkStatus, 0);
+        glGetProgramiv(programObjectId, GL_LINK_STATUS,
+            linkStatus, 0);
 
         if (LoggerConfig.ON) {
             // Print the program info log to the Android log output.
-            Log.v(TAG, "Results of linking program:\n"
-                    + GLES20.glGetProgramInfoLog(programObjectId));
+            Log.v(
+                TAG,
+                "Results of linking program:\n"
+                    + glGetProgramInfoLog(programObjectId));
         }
 
         // Verify the link status.
         if (linkStatus[0] == 0) {
             // If it failed, delete the program object.
-            GLES20.glDeleteProgram(programObjectId);
+            glDeleteProgram(programObjectId);
+
             if (LoggerConfig.ON) {
                 Log.w(TAG, "Linking of program failed.");
             }
+
             return 0;
         }
 
@@ -130,13 +154,35 @@ public class ShaderHelper {
      * application.
      */
     public static boolean validateProgram(int programObjectId) {
-        GLES20.glValidateProgram(programObjectId);
-
+        glValidateProgram(programObjectId);
         final int[] validateStatus = new int[1];
-        GLES20.glGetProgramiv(programObjectId, GLES20.GL_VALIDATE_STATUS, validateStatus, 0);
+        glGetProgramiv(programObjectId, GL_VALIDATE_STATUS,
+            validateStatus, 0);
         Log.v(TAG, "Results of validating program: " + validateStatus[0]
-                + "\nLog:" + GLES20.glGetProgramInfoLog(programObjectId));
+            + "\nLog:" + glGetProgramInfoLog(programObjectId));
 
         return validateStatus[0] != 0;
+    }
+
+    /**
+     * Helper function that compiles the shaders, links and validates the
+     * program, returning the program ID.
+     */
+    public static int buildProgram(String vertexShaderSource,
+        String fragmentShaderSource) {
+        int program;
+
+        // Compile the shaders.
+        int vertexShader = compileVertexShader(vertexShaderSource);
+        int fragmentShader = compileFragmentShader(fragmentShaderSource);
+
+        // Link them into a shader program.
+        program = linkProgram(vertexShader, fragmentShader);
+
+        if (LoggerConfig.ON) {
+            validateProgram(program);
+        }
+
+        return program;
     }
 }

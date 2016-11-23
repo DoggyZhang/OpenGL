@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Demo1" />
+            android:text="立方体" />
 
 
         <Button
@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Demo2" />
+            android:text="着色器1" />
 
 
         <Button
@@ -29,14 +29,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Demo3" />
+            android:text="着色器2" />
 
         <Button
             android:id="@+id/btn_4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Demo4" />
+            android:text="宽高匹配" />
 
 
         <Button
@@ -44,7 +44,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Demo5" />
+            android:text="纹理" />
+
+        <Button
+            android:id="@+id/btn_6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="构建简单物体" />
     </LinearLayout>
 
 </ScrollView>
